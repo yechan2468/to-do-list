@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-3">
+    {% if task_list %}
+    {% for task in task_list %}
+    <a href="{% url 'task_detail' task.id %}" style="text-decoration: none; color: black;">
+        <div class="card">
+            <div class="card-header">
+                {% if task.priority_level == 1 %} <span class="badge rounded-pill bg-secondary">중요도: 1</span>
+                {% elif task.priority_level == 2 %} <span class="badge rounded-pill bg-primary">중요도: 2</span>
+                {% elif task.priority_level == 3 %} <span class="badge rounded-pill bg-success">중요도: 3</span>
+                {% elif task.priority_level == 4 %} <span class="badge rounded-pill bg-warning">중요도: 4</span>
+                {% elif task.priority_level == 5 %} <span class="badge rounded-pill bg-danger">중요도: 5</span>
+                {% endif %}
+                <span>{{ task.due_date | date:"Y년 m월 d일" }}까지</span>
+                <a href="javascript:void(0)" class="delete btn btn-sm float-end" data-uri="{% url 'task_delete' task.id %}">❌</a>
+                <a href="{% url 'task_edit' task.id  %}" class="btn btn-sm float-end">✎</a>
+            </div>
+            <div class="card-body">
+                {% if task.finished %}
+                <h5 class="card-title"><del>{{ task.content }}</del></h5>
+                {% else %}
+                <h5 class="card-title">{{ task.content }}</h5>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    <br>
+    {% endfor %}
+    {% else %}
+    <div class="card">
+        등록된 할 일이 없습니다!
+    </div>
+    {% endif %}
+
+    <a href="{% url 'task_create' %}" class="btn btn-primary">할 일 등록하기</a>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+{% endblock %}

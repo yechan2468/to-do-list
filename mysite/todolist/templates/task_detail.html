@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-3">
+    <h2 class="border-bottom py-2">{{ task.content }}</h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" style="white-space: pre-line;">{{ task.due_date }} 까지</div>
+            <div class="card-text" style="white-space: pre-line;">중요도: {{ task.priority_level }}</div>
+            {% if task.finished %}
+            <div class="card-text" style="white-space: pre-line;">완료함: Yes</div>
+            {% else %}
+            <div class="card-text" style="white-space: pre-line;">완료함: No</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="my-3">
+        <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">뒤로</a>
+        <a href="{% url 'task_edit' task.id  %}" class="btn btn-sm btn-outline-secondary">수정</a>
+        <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+           data-uri="{% url 'task_delete' task.id  %}">삭제</a>
+    </div>
+
+</div>
+
+{% endblock %}
+
+<!--{% block script %}-->
+<!--<script type='text/javascript'>-->
+<!--const delete_elements = document.getElementsByClassName("delete");-->
+<!--Array.from(delete_elements).forEach(function(element) {-->
+<!--    element.addEventListener('click', function() {-->
+<!--        if(confirm("정말로 삭제하시겠습니까?")) {-->
+<!--            location.href = this.dataset.uri;-->
+<!--        };-->
+<!--    });-->
+<!--});-->
+<!--</script>-->
+<!--{% endblock %}-->

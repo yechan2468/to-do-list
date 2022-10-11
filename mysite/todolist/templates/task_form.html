@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">할 일 등록하기</h5>
+    <form method="post">
+        {% csrf_token %}
+
+
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+            {% if field.errors %}
+            <div>
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {{ form.as_p }}
+
+        <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-secondary">뒤로</a>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">저장</button>
+    </form>
+</div>
+
+{% endblock %}
